@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maverick Systems - Build the Future</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --background: hsl(0, 0%, 100%);
+      --foreground: hsl(220, 20%, 10%);
+      --neon: hsl(120, 100%, 50%);
+      --neon-glow: hsl(120, 100%, 60%);
+      --primary: hsl(220, 20%, 8%);
+      --primary-foreground: hsl(0, 0%, 100%);
+      --secondary: hsl(220, 15%, 95%);
+      --muted-foreground: hsl(220, 10%, 45%);
+      --border: hsl(220, 15%, 90%);
+      --card: hsl(0, 0%, 98%);
+      --gradient-neon: linear-gradient(135deg, hsl(120, 100%, 50%) 0%, hsl(150, 100%, 45%) 100%);
+      --shadow-neon: 0 0 30px hsla(120, 100%, 50%, 0.3);
+      --shadow-elevated: 0 20px 50px -15px hsla(220, 20%, 10%, 0.15);
+    }
+    
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--background); color: var(--foreground); line-height: 1.6; }
+    h1, h2, h3, h4, h5, h6 { font-family: 'Orbitron', sans-serif; }
+    
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+    
+    /* Tech Grid Background */
+    .tech-grid {
+      background-image: linear-gradient(hsla(120, 100%, 50%, 0.05) 1px, transparent 1px),
+                        linear-gradient(90deg, hsla(120, 100%, 50%, 0.05) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    
+    /* Gradient Text */
+    .text-gradient-neon {
+      background: var(--gradient-neon);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 500;
+      cursor: pointer; transition: all 0.3s; border: none; font-size: 0.875rem;
+    }
+    .btn-neon {
+      background: var(--gradient-neon); color: var(--primary);
+      box-shadow: var(--shadow-neon);
+    }
+    .btn-neon:hover { transform: translateY(-2px); box-shadow: 0 0 40px hsla(120, 100%, 50%, 0.4); }
+    .btn-outline {
+      background: transparent; color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--neon); color: var(--neon); }
+    .btn-lg { padding: 1rem 2rem; font-size: 1rem; }
+    
+    /* Navbar */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      background: hsla(0, 0%, 100%, 0.8); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .navbar-inner { display: flex; align-items: center; justify-content: space-between; height: 5rem; }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-link {
+      font-size: 0.875rem; font-weight: 500; color: var(--muted-foreground);
+      text-decoration: none; transition: color 0.3s;
+    }
+    .nav-link:hover { color: var(--neon); }
+    .logo { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.25rem; color: var(--foreground); text-decoration: none; }
+    .logo span { color: var(--neon); }
+    .mobile-menu-btn { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+    .mobile-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--background); border-bottom: 1px solid var(--border); padding: 1rem; }
+    .mobile-menu.active { display: block; }
+    .mobile-menu a { display: block; padding: 0.75rem 0; color: var(--foreground); text-decoration: none; }
+    
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .mobile-menu-btn { display: block; }
+    }
+    
+    /* Hero Section */
+    .hero {
+      position: relative; min-height: 100vh; display: flex; align-items: center;
+      padding-top: 5rem; overflow: hidden;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    @media (max-width: 1024px) { .hero-grid { grid-template-columns: 1fr; } }
+    
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1rem; border-radius: 9999px;
+      border: 1px solid hsla(120, 100%, 50%, 0.3);
+      background: hsla(120, 100%, 50%, 0.05);
+      box-shadow: var(--shadow-neon); margin-bottom: 2rem;
+    }
+    .hero-badge svg { width: 1rem; height: 1rem; color: var(--neon); }
+    .hero-badge span { font-size: 0.875rem; font-weight: 500; color: var(--neon); }
+    
+    .hero h1 { font-size: clamp(2.5rem, 5vw, 3.75rem); font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; }
+    .hero-text { font-size: 1.125rem; color: var(--muted-foreground); max-width: 36rem; margin-bottom: 2rem; }
+    
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 2rem; margin-bottom: 2rem; }
+    .stat-value { font-family: 'Orbitron', sans-serif; font-size: 1.875rem; font-weight: 700; color: var(--neon); }
+    .stat-label { font-size: 0.875rem; color: var(--muted-foreground); }
+    
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 1rem; }
+    
+    .hero-image-wrapper { position: relative; }
+    .hero-image {
+      width: 100%; border-radius: 1rem; overflow: hidden;
+      border: 1px solid var(--neon); box-shadow: var(--shadow-neon);
+    }
+    .hero-image img { width: 100%; height: auto; display: block; }
+    .hero-image-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, hsla(220, 20%, 8%, 0.4), transparent);
+    }
+    
+    .floating-card {
+      position: absolute; bottom: -1.5rem; left: -1.5rem;
+      background: hsla(0, 0%, 100%, 0.8); backdrop-filter: blur(20px);
+      border: 1px solid var(--border); border-radius: 0.75rem; padding: 1rem;
+      box-shadow: var(--shadow-elevated); display: flex; align-items: center; gap: 0.75rem;
+    }
+    .floating-card-icon {
+      width: 2.5rem; height: 2.5rem; border-radius: 0.5rem;
+      background: var(--gradient-neon); display: flex; align-items: center; justify-content: center;
+    }
+    .floating-card-icon svg { width: 1.25rem; height: 1.25rem; color: var(--primary); }
+    .floating-card-text { font-weight: 600; font-size: 0.875rem; }
+    .floating-card-subtext { font-size: 0.75rem; color: var(--muted-foreground); }
+    
+    .floating-orb {
+      position: absolute; border-radius: 50%; filter: blur(60px);
+      animation: float 6s ease-in-out infinite;
+    }
+    .orb-1 { top: 25%; left: 25%; width: 16rem; height: 16rem; background: hsla(120, 100%, 50%, 0.1); }
+    .orb-2 { bottom: 25%; right: 25%; width: 24rem; height: 24rem; background: hsla(120, 100%, 50%, 0.05); animation-delay: -3s; }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    /* Features Section */
+    .features { padding: 6rem 0; position: relative; overflow: hidden; background: var(--secondary); }
+    .features-header { text-align: center; max-width: 48rem; margin: 0 auto 4rem; }
+    .features-badge {
+      display: inline-block; padding: 0.375rem 1rem; border-radius: 9999px;
+      font-size: 0.875rem; font-weight: 500; background: hsla(120, 100%, 50%, 0.1);
+      color: var(--neon); border: 1px solid hsla(120, 100%, 50%, 0.3); margin-bottom: 1.5rem;
+    }
+    .features h2 { font-size: clamp(1.875rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1.5rem; }
+    .features-text { font-size: 1.125rem; color: var(--muted-foreground); }
+    
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    
+    .feature-card {
+      padding: 1.5rem; border-radius: 1rem; background: var(--background);
+      border: 1px solid var(--border); transition: all 0.3s;
+    }
+    .feature-card:hover { border-color: hsla(120, 100%, 50%, 0.5); box-shadow: 0 0 30px hsla(120, 100%, 50%, 0.1); }
+    .feature-icon {
+      width: 3rem; height: 3rem; border-radius: 0.75rem;
+      background: var(--gradient-neon); display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.25rem; transition: transform 0.3s;
+    }
+    .feature-card:hover .feature-icon { transform: scale(1.1); }
+    .feature-icon svg { width: 1.5rem; height: 1.5rem; color: var(--primary); }
+    .feature-card h3 { font-size: 1.125rem; font-weight: 600; margin-bottom: 0.75rem; transition: color 0.3s; }
+    .feature-card:hover h3 { color: var(--neon); }
+    .feature-card p { font-size: 0.875rem; color: var(--muted-foreground); line-height: 1.6; }
+    
+    /* Pricing Section */
+    .pricing { padding: 6rem 0; position: relative; }
+    .pricing-header { text-align: center; max-width: 48rem; margin: 0 auto 4rem; }
+    .pricing-badge {
+      display: inline-block; padding: 0.375rem 1rem; border-radius: 9999px;
+      font-size: 0.875rem; font-weight: 500; background: hsla(120, 100%, 50%, 0.1);
+      color: var(--neon); border: 1px solid hsla(120, 100%, 50%, 0.3); margin-bottom: 1.5rem;
+    }
+    .pricing h2 { font-size: clamp(1.875rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1.5rem; }
+    .pricing-text { font-size: 1.125rem; color: var(--muted-foreground); }
+    
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto; }
+    
+    .pricing-card {
+      padding: 2rem; border-radius: 1.5rem; background: var(--card);
+      border: 1px solid var(--border); position: relative; transition: all 0.3s;
+    }
+    .pricing-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-elevated); }
+    .pricing-card.popular { border-color: var(--neon); box-shadow: var(--shadow-neon); }
+    .popular-badge {
+      position: absolute; top: -0.75rem; left: 50%; transform: translateX(-50%);
+      padding: 0.25rem 1rem; border-radius: 9999px; background: var(--gradient-neon);
+      font-size: 0.75rem; font-weight: 600; color: var(--primary);
+    }
+    .pricing-icon {
+      width: 3rem; height: 3rem; border-radius: 0.75rem;
+      background: var(--gradient-neon); display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    .pricing-icon svg { width: 1.5rem; height: 1.5rem; color: var(--primary); }
+    .pricing-name { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .pricing-price { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .pricing-price span { font-size: 1rem; color: var(--muted-foreground); font-family: 'Inter', sans-serif; }
+    .pricing-desc { font-size: 0.875rem; color: var(--muted-foreground); margin-bottom: 1.5rem; }
+    .pricing-features { list-style: none; margin-bottom: 2rem; }
+    .pricing-features li { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; font-size: 0.875rem; }
+    .pricing-features svg { width: 1.25rem; height: 1.25rem; color: var(--neon); flex-shrink: 0; }
+    .pricing-card .btn { width: 100%; }
+    
+    /* Contact Section */
+    .contact { padding: 6rem 0; position: relative; background: var(--secondary); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    @media (max-width: 1024px) { .contact-grid { grid-template-columns: 1fr; } }
+    
+    .contact-badge {
+      display: inline-block; padding: 0.375rem 1rem; border-radius: 9999px;
+      font-size: 0.875rem; font-weight: 500; background: hsla(120, 100%, 50%, 0.1);
+      color: var(--neon); border: 1px solid hsla(120, 100%, 50%, 0.3); margin-bottom: 1.5rem;
+    }
+    .contact h2 { font-size: clamp(1.875rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 1.5rem; }
+    .contact-text { font-size: 1.125rem; color: var(--muted-foreground); margin-bottom: 2rem; }
+    
+    .trust-signals { display: flex; flex-direction: column; gap: 1rem; }
+    .trust-item { display: flex; align-items: center; gap: 0.75rem; }
+    .trust-icon {
+      width: 2.5rem; height: 2.5rem; border-radius: 0.5rem;
+      background: var(--gradient-neon); display: flex; align-items: center; justify-content: center;
+    }
+    .trust-icon svg { width: 1.25rem; height: 1.25rem; color: var(--primary); }
+    .trust-text { font-weight: 500; }
+    
+    .contact-form {
+      background: var(--background); padding: 2rem; border-radius: 1.5rem;
+      border: 1px solid var(--border); box-shadow: var(--shadow-elevated);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    @media (max-width: 640px) { .form-row { grid-template-columns: 1fr; } }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; }
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 0.75rem 1rem; border-radius: 0.5rem;
+      border: 1px solid var(--border); background: var(--background);
+      font-family: 'Inter', sans-serif; font-size: 0.875rem; transition: border-color 0.3s;
+    }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--neon); }
+    .form-group textarea { min-height: 120px; resize: vertical; }
+    .contact-form .btn { width: 100%; }
+    
+    /* Footer */
+    .footer { padding: 4rem 0 2rem; background: var(--primary); color: var(--primary-foreground); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    @media (max-width: 1024px) { .footer-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .footer-grid { grid-template-columns: 1fr; } }
+    
+    .footer-brand .logo { color: var(--primary-foreground); }
+    .footer-desc { font-size: 0.875rem; color: hsla(0, 0%, 100%, 0.7); margin: 1rem 0; line-height: 1.6; }
+    .social-links { display: flex; gap: 0.75rem; }
+    .social-link {
+      width: 2.5rem; height: 2.5rem; border-radius: 0.5rem;
+      background: hsla(0, 0%, 100%, 0.1); display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s; text-decoration: none;
+    }
+    .social-link:hover { background: var(--neon); }
+    .social-link svg { width: 1.25rem; height: 1.25rem; color: var(--primary-foreground); }
+    .social-link:hover svg { color: var(--primary); }
+    
+    .footer-col h4 { font-family: 'Orbitron', sans-serif; font-size: 0.875rem; font-weight: 600; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.75rem; }
+    .footer-col a { font-size: 0.875rem; color: hsla(0, 0%, 100%, 0.7); text-decoration: none; transition: color 0.3s; }
+    .footer-col a:hover { color: var(--neon); }
+    
+    .footer-bottom { padding-top: 2rem; border-top: 1px solid hsla(0, 0%, 100%, 0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom p { font-size: 0.875rem; color: hsla(0, 0%, 100%, 0.5); }
+    .footer-tagline { font-size: 0.75rem; color: var(--neon); font-family: 'Orbitron', sans-serif; }
+    
+    /* Utility */
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container">
+      <nav class="navbar-inner">
+        <a href="#home" class="logo">MAVERICK<span>.</span></a>
+        <div class="nav-links">
+          <a href="#home" class="nav-link">Home</a>
+          <a href="#features" class="nav-link">Features</a>
+          <a href="#pricing" class="nav-link">Pricing</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </div>
+        <div class="nav-cta">
+          <a href="#contact" class="btn btn-neon">Get Started</a>
+        </div>
+        <button class="mobile-menu-btn" onclick="toggleMobile()" aria-label="Toggle menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </nav>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="container">
+        <a href="#home" onclick="closeMobile()">Home</a>
+        <a href="#features" onclick="closeMobile()">Features</a>
+        <a href="#pricing" onclick="closeMobile()">Pricing</a>
+        <a href="#contact" onclick="closeMobile()">Contact</a>
+        <a href="#contact" class="btn btn-neon" style="margin-top: 1rem; display: block; text-align: center;" onclick="closeMobile()">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero tech-grid">
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+    <div class="container" style="position: relative; z-index: 10;">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>Next-Gen Web Solutions</span>
+          </div>
+          <h1>Build the Future.<br><span class="text-gradient-neon">Launch Today.</span></h1>
+          <p class="hero-text">Maverick Systems™ delivers cutting-edge website building and hosting solutions. No code. No limits. Just pure digital power at your fingertips.</p>
+          <div class="hero-stats">
+            <div><div class="stat-value">99.9%</div><div class="stat-label">Uptime SLA</div></div>
+            <div><div class="stat-value">&lt;50ms</div><div class="stat-label">Response Time</div></div>
+            <div><div class="stat-value">10K+</div><div class="stat-label">Sites Launched</div></div>
+          </div>
+          <div class="hero-ctas">
+            <a href="#contact" class="btn btn-neon btn-lg">Start Your Project <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            <a href="#features" class="btn btn-outline btn-lg">Explore Features</a>
+          </div>
+        </div>
+        <div class="hero-image-wrapper">
+          <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80" alt="Futuristic web development interface">
+            <div class="hero-image-overlay"></div>
+          </div>
+          <div class="floating-card">
+            <div class="floating-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <div>
+              <div class="floating-card-text">Lightning Fast</div>
+              <div class="floating-card-subtext">Deploy in seconds</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features tech-grid">
+    <div class="container" style="position: relative; z-index: 10;">
+      <div class="features-header">
+        <span class="features-badge">CAPABILITIES</span>
+        <h2>Built Different. <span class="text-gradient-neon">Built Better.</span></h2>
+        <p class="features-text">Everything you need to dominate the digital landscape. Powerful tools, seamless experience, unmatched reliability.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09zM12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
+          <h3>Instant Deploy</h3>
+          <p>Go live in seconds with our one-click deployment. No waiting, no hassle.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h3>Military-Grade Security</h3>
+          <p>Enterprise SSL, DDoS protection, and 24/7 threat monitoring included.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <h3>Blazing Performance</h3>
+          <p>Global CDN with edge caching delivers sub-50ms load times worldwide.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <h3>Global Scale</h3>
+          <p>Automatically scale across 200+ data centers. Handle any traffic spike.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="0.5"/><circle cx="17.5" cy="10.5" r="0.5"/><circle cx="8.5" cy="7.5" r="0.5"/><circle cx="6.5" cy="12.5" r="0.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.555C21.965 6.012 17.461 2 12 2z"/></svg></div>
+          <h3>Drag & Drop Builder</h3>
+          <p>Visual editor with 500+ templates. Build stunning sites—zero code required.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+          <h3>Developer Friendly</h3>
+          <p>Full API access, Git integration, and custom code injection when you need it.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
+          <h3>Cloud Hosting</h3>
+          <p>Unlimited bandwidth, automatic backups, and 99.9% uptime guarantee.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+          <h3>24/7 Support</h3>
+          <p>Real humans, real fast. Our experts are always ready to help you succeed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="pricing tech-grid">
+    <div class="container" style="position: relative; z-index: 10;">
+      <div class="pricing-header">
+        <span class="pricing-badge">PRICING</span>
+        <h2>Simple, Transparent <span class="text-gradient-neon">Pricing</span></h2>
+        <p class="pricing-text">No hidden fees. No surprises. Choose the plan that fits your ambition.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <div class="pricing-name">STARTER</div>
+          <div class="pricing-price">$29<span>/month</span></div>
+          <p class="pricing-desc">Perfect for personal projects and small businesses getting started.</p>
+          <ul class="pricing-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>3 Websites</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>10GB Storage</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Free SSL Certificate</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Basic Analytics</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Email Support</li>
+          </ul>
+          <a href="#contact" class="btn btn-outline">Get Started</a>
+        </div>
+        <div class="pricing-card popular">
+          <span class="popular-badge">MOST POPULAR</span>
+          <div class="pricing-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09zM12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
+          <div class="pricing-name">PREMIUM</div>
+          <div class="pricing-price">$79<span>/month</span></div>
+          <p class="pricing-desc">For growing businesses that need more power and customization.</p>
+          <ul class="pricing-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Unlimited Websites</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>100GB Storage</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Priority CDN Access</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Advanced Analytics</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>24/7 Priority Support</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Custom Domains</li>
+          </ul>
+          <a href="#contact" class="btn btn-neon">Get Started</a>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+          <div class="pricing-name">ENTERPRISE</div>
+          <div class="pricing-price">$199<span>/month</span></div>
+          <p class="pricing-desc">Maximum power for large-scale operations and agencies.</p>
+          <ul class="pricing-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Everything in Premium</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Unlimited Storage</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>White-label Solution</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Dedicated Account Manager</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Custom Integrations</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>SLA Guarantee</li>
+          </ul>
+          <a href="#contact" class="btn btn-outline">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact tech-grid">
+    <div class="container" style="position: relative; z-index: 10;">
+      <div class="contact-grid">
+        <div>
+          <span class="contact-badge">GET IN TOUCH</span>
+          <h2>Ready to <span class="text-gradient-neon">Launch?</span></h2>
+          <p class="contact-text">Tell us about your project. Our team will get back to you within 24 hours with a custom solution tailored to your needs.</p>
+          <div class="trust-signals">
+            <div class="trust-item">
+              <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+              <span class="trust-text">Enterprise-grade security</span>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+              <span class="trust-text">24-hour response time</span>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              <span class="trust-text">30-day money-back guarantee</span>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Full Name *</label>
+              <input type="text" id="name" name="name" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" placeholder="john@company.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="company">Company</label>
+              <input type="text" id="company" name="company" placeholder="Your Company">
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="message">Project Details *</label>
+            <textarea id="message" name="message" placeholder="Tell us about your project, goals, and timeline..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-neon btn-lg">Send Message <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#home" class="logo">MAVERICK<span>.</span></a>
+          <p class="footer-desc">Next-generation website building and hosting platform. Build faster, scale smarter, launch with confidence.</p>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+            <a href="#" class="social-link" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+            <a href="#" class="social-link" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+            <a href="#" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#">Templates</a></li>
+            <li><a href="#">Integrations</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#">Status</a></li>
+            <li><a href="#">Documentation</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Terms</a></li>
+            <li><a href="#">Security</a></li>
+            <li><a href="#">Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 Maverick Systems. All rights reserved.</p>
+        <span class="footer-tagline">BUILT FOR THE FUTURE</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    function toggleMobile() {
+      document.getElementById('mobileMenu').classList.toggle('active');
+    }
+    function closeMobile() {
+      document.getElementById('mobileMenu').classList.remove('active');
+    }
+
+    // Form submission
+    function handleSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const name = form.name.value;
+      alert('Thank you, ' + name + '! Your message has been sent. We\'ll get back to you within 24 hours.');
+      form.reset();
+    }
+
+    // Smooth scroll for all anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
