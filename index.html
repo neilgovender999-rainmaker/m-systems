@@ -1,21 +1,44 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Maverick Systems™ | Website Building & Hosting Solutions</title>
-    <meta name="description" content="Build the future with Maverick Systems™. Cutting-edge website building and hosting solutions with lightning-fast performance." />
-    <meta name="author" content="Maverick Systems" />
-    <meta property="og:title" content="Maverick Systems™ | Build the Future. Launch Today." />
-    <meta property="og:description" content="Next-gen website building and hosting. No code. No limits." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@MaverickSystems" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>Maverick Systems</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS directly inside <style> -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background: #f4f4f4;
+    }
+    h1 {
+      color: #333;
+    }
+    button {
+      padding: 10px 20px;
+      background: #007acc;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005fa3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Maverick Systems™</h1>
+  <p>Cutting-edge website building and hosting solutions.</p>
+
+  <button id="cta">Click Me</button>
+
+  <!-- JS directly inside <script> -->
+  <script>
+    document.getElementById("cta").addEventListener("click", () => {
+      alert("Welcome to Maverick Systems!");
+    });
+  </script>
+</body>
 </html>
