@@ -2,43 +2,708 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Maverick Systems</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- CSS directly inside <style> -->
+  <title>Maverick Systems - Professional Web Solutions South Africa</title>
+  <meta name="description" content="South Africa's premier website design, development, and hosting company. We help businesses grow with professional web solutions, secure hosting, and expert support.">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 50px;
-      background: #f4f4f4;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --background: hsl(0, 0%, 100%);
+      --foreground: hsl(220, 20%, 10%);
+      --neon: hsl(120, 100%, 50%);
+      --neon-glow: hsl(120, 100%, 60%);
+      --primary: hsl(220, 20%, 8%);
+      --primary-foreground: hsl(0, 0%, 100%);
+      --secondary: hsl(220, 15%, 95%);
+      --muted-foreground: hsl(220, 10%, 45%);
+      --border: hsl(220, 15%, 90%);
+      --card: hsl(0, 0%, 98%);
+      --gradient-neon: linear-gradient(135deg, hsl(120, 100%, 50%) 0%, hsl(150, 100%, 45%) 100%);
+      --shadow-neon: 0 0 30px hsla(120, 100%, 50%, 0.3);
+      --shadow-elevated: 0 20px 50px -15px hsla(220, 20%, 10%, 0.15);
     }
-    h1 {
-      color: #333;
+    
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--background); color: var(--foreground); line-height: 1.6; }
+    h1, h2, h3, h4, h5, h6 { font-family: 'Orbitron', sans-serif; }
+    
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+    
+    .tech-grid {
+      background-image: linear-gradient(hsla(120, 100%, 50%, 0.05) 1px, transparent 1px),
+                        linear-gradient(90deg, hsla(120, 100%, 50%, 0.05) 1px, transparent 1px);
+      background-size: 50px 50px;
     }
-    button {
-      padding: 10px 20px;
-      background: #007acc;
-      color: white;
-      border: none;
-      cursor: pointer;
+    
+    .text-gradient-neon {
+      background: var(--gradient-neon);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    button:hover {
-      background: #005fa3;
+    
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 500;
+      cursor: pointer; transition: all 0.3s; border: none; font-size: 0.875rem;
+      text-decoration: none;
     }
+    .btn-neon {
+      background: var(--gradient-neon); color: var(--primary);
+      box-shadow: var(--shadow-neon);
+    }
+    .btn-neon:hover { transform: translateY(-2px); box-shadow: 0 0 40px hsla(120, 100%, 50%, 0.4); }
+    .btn-outline {
+      background: transparent; color: var(--foreground);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--neon); color: var(--neon); }
+    .btn-lg { padding: 1rem 2rem; font-size: 1rem; }
+    
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      background: hsla(0, 0%, 100%, 0.8); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .navbar-inner { display: flex; align-items: center; justify-content: space-between; height: 5rem; }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-link {
+      font-size: 0.875rem; font-weight: 500; color: var(--muted-foreground);
+      text-decoration: none; transition: color 0.3s;
+    }
+    .nav-link:hover { color: var(--neon); }
+    .logo { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.25rem; color: var(--foreground); text-decoration: none; }
+    .logo span { color: var(--neon); }
+    .mobile-menu-btn { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+    .mobile-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--background); border-bottom: 1px solid var(--border); padding: 1rem; }
+    .mobile-menu.active { display: block; }
+    .mobile-menu a { display: block; padding: 0.75rem 0; color: var(--foreground); text-decoration: none; }
+    
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .mobile-menu-btn { display: block; }
+    }
+    
+    .hero {
+      position: relative; min-height: 100vh; display: flex; align-items: center;
+      padding-top: 5rem; overflow: hidden;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    @media (max-width: 1024px) { .hero-grid { grid-template-columns: 1fr; } }
+    
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1rem; border-radius: 9999px;
+      border: 1px solid hsla(120, 100%, 50%, 0.3);
+      background: hsla(120, 100%, 50%, 0.05);
+      box-shadow: var(--shadow-neon); margin-bottom: 2rem;
+    }
+    .hero-badge svg { width: 1rem; height: 1rem; color: var(--neon); }
+    .hero-badge span { font-size: 0.875rem; font-weight: 500; color: var(--neon); }
+    
+    .hero h1 { font-size: clamp(2.5rem, 5vw, 3.75rem); font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; }
+    .hero-text { font-size: 1.125rem; color: var(--muted-foreground); max-width: 36rem; margin-bottom: 2rem; }
+    
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 2rem; margin-bottom: 2rem; }
+    .stat-value { font-family: 'Orbitron', sans-serif; font-size: 1.875rem; font-weight: 700; color: var(--neon); }
+    .stat-label { font-size: 0.875rem; color: var(--muted-foreground); }
+    
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 1rem; }
+    
+    .hero-image-wrapper { position: relative; }
+    .hero-image {
+      width: 100%; border-radius: 1rem; overflow: hidden;
+      border: 1px solid var(--neon); box-shadow: var(--shadow-neon);
+    }
+    .hero-image img { width: 100%; height: auto; display: block; }
+    .hero-image-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, hsla(220, 20%, 8%, 0.4), transparent);
+    }
+    
+    .floating-card {
+      position: absolute; bottom: -1.5rem; left: -1.5rem;
+      background: hsla(0, 0%, 100%, 0.8); backdrop-filter: blur(20px);
+      border: 1px solid var(--border); border-radius: 0.75rem; padding: 1rem;
+      box-shadow: var(--shadow-elevated); display: flex; align-items: center; gap: 0.75rem;
+    }
+    .floating-card-icon {
+      width: 2.5rem; height: 2.5rem; border-radius: 0.5rem;
+      background: var(--gradient-neon); display: flex; align-items: center; justify-content: center;
+    }
+    .floating-card-icon svg { width: 1.25rem; height: 1.25rem; color: var(--primary); }
+    .floating-card-text { font-weight: 600; font-size: 0.875rem; }
+    .floating-card-subtext { font-size: 0.75rem; color: var(--muted-foreground); }
+    
+    .floating-orb {
+      position: absolute; border-radius: 50%; filter: blur(60px);
+      animation: float 6s ease-in-out infinite;
+    }
+    .orb-1 { top: 25%; left: 25%; width: 16rem; height: 16rem; background: hsla(120, 100%, 50%, 0.1); }
+    .orb-2 { bottom: 25%; right: 25%; width: 24rem; height: 24rem; background: hsla(120, 100%, 50%, 0.05); animation-delay: -3s; }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    .features { padding: 6rem 0; position: relative; overflow: hidden; background: var(--secondary); }
+    .features-header { text-align: center; max-width: 48rem; margin: 0 auto 4rem; }
+    .features-badge {
+      display: inline-block; padding: 0.375rem 1rem; border-radius: 9999px;
+      font-size: 0.875rem; font-weight: 500; background: hsla(120, 100%, 50%, 0.1);
+      color: var(--neon); border: 1px solid hsla(120, 100%, 50%, 0.3); margin-bottom: 1.5rem;
+    }
+    .features h2 { font-size: clamp(1.875rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1.5rem; }
+    .features-text { font-size: 1.125rem; color: var(--muted-foreground); }
+    
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    
+    .feature-card {
+      padding: 1.5rem; border-radius: 1rem; background: var(--background);
+      border: 1px solid var(--border); transition: all 0.3s;
+    }
+    .feature-card:hover { border-color: hsla(120, 100%, 50%, 0.5); box-shadow: 0 0 30px hsla(120, 100%, 50%, 0.1); }
+    .feature-icon {
+      width: 3rem; height: 3rem; border-radius: 0.75rem;
+      background: var(--gradient-neon); display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.25rem; transition: transform 0.3s;
+    }
+    .feature-card:hover .feature-icon { transform: scale(1.1); }
+    .feature-icon svg { width: 1.5rem; height: 1.5rem; color: var(--primary); }
+    .feature-card h3 { font-size: 1.125rem; font-weight: 600; margin-bottom: 0.75rem; transition: color 0.3s; }
+    .feature-card:hover h3 { color: var(--neon); }
+    .feature-card p { font-size: 0.875rem; color: var(--muted-foreground); line-height: 1.6; }
+    
+    .pricing { padding: 6rem 0; position: relative; }
+    .pricing-header { text-align: center; max-width: 48rem; margin: 0 auto 4rem; }
+    .pricing-badge {
+      display: inline-block; padding: 0.375rem 1rem; border-radius: 9999px;
+      font-size: 0.875rem; font-weight: 500; background: hsla(120, 100%, 50%, 0.1);
+      color: var(--neon); border: 1px solid hsla(120, 100%, 50%, 0.3); margin-bottom: 1.5rem;
+    }
+    .pricing h2 { font-size: clamp(1.875rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1.5rem; }
+    .pricing-text { font-size: 1.125rem; color: var(--muted-foreground); }
+    
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto; }
+    
+    .pricing-card {
+      padding: 2rem; border-radius: 1.5rem; background: var(--card);
+      border: 1px solid var(--border); position: relative; transition: all 0.3s;
+    }
+    .pricing-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-elevated); }
+    .pricing-card.popular { border-color: var(--neon); box-shadow: var(--shadow-neon); }
+    .popular-badge {
+      position: absolute; top: -0.75rem; left: 50%; transform: translateX(-50%);
+      padding: 0.25rem 1rem; border-radius: 9999px; background: var(--gradient-neon);
+      font-size: 0.75rem; font-weight: 600; color: var(--primary);
+    }
+    .pricing-icon {
+      width: 3rem; height: 3rem; border-radius: 0.75rem;
+      background: var(--gradient-neon); display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    .pricing-icon svg { width: 1.5rem; height: 1.5rem; color: var(--primary); }
+    .pricing-name { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .pricing-price { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .pricing-price span { font-size: 1rem; color: var(--muted-foreground); font-family: 'Inter', sans-serif; }
+    .pricing-desc { font-size: 0.875rem; color: var(--muted-foreground); margin-bottom: 1.5rem; }
+    .pricing-features { list-style: none; margin-bottom: 2rem; }
+    .pricing-features li { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; font-size: 0.875rem; }
+    .pricing-features svg { width: 1.25rem; height: 1.25rem; color: var(--neon); flex-shrink: 0; }
+    .pricing-card .btn { width: 100%; }
+    
+    .contact { padding: 6rem 0; position: relative; background: var(--secondary); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    @media (max-width: 1024px) { .contact-grid { grid-template-columns: 1fr; } }
+    
+    .contact-badge {
+      display: inline-block; padding: 0.375rem 1rem; border-radius: 9999px;
+      font-size: 0.875rem; font-weight: 500; background: hsla(120, 100%, 50%, 0.1);
+      color: var(--neon); border: 1px solid hsla(120, 100%, 50%, 0.3); margin-bottom: 1.5rem;
+    }
+    .contact h2 { font-size: clamp(1.875rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 1.5rem; }
+    .contact-text { font-size: 1.125rem; color: var(--muted-foreground); margin-bottom: 2rem; }
+    
+    .trust-signals { display: flex; flex-direction: column; gap: 1rem; }
+    .trust-item { display: flex; align-items: center; gap: 0.75rem; }
+    .trust-icon {
+      width: 2.5rem; height: 2.5rem; border-radius: 0.5rem;
+      background: var(--gradient-neon); display: flex; align-items: center; justify-content: center;
+    }
+    .trust-icon svg { width: 1.25rem; height: 1.25rem; color: var(--primary); }
+    .trust-text { font-weight: 500; }
+    
+    .contact-form {
+      background: var(--background); padding: 2rem; border-radius: 1.5rem;
+      border: 1px solid var(--border); box-shadow: var(--shadow-elevated);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    @media (max-width: 640px) { .form-row { grid-template-columns: 1fr; } }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; }
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 0.75rem 1rem; border-radius: 0.5rem;
+      border: 1px solid var(--border); background: var(--background);
+      font-family: 'Inter', sans-serif; font-size: 0.875rem; transition: border-color 0.3s;
+    }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--neon); }
+    .form-group textarea { min-height: 120px; resize: vertical; }
+    .contact-form .btn { width: 100%; }
+    
+    .privacy { padding: 6rem 0; position: relative; }
+    .privacy-header { text-align: center; max-width: 48rem; margin: 0 auto 3rem; }
+    .privacy-badge {
+      display: inline-block; padding: 0.375rem 1rem; border-radius: 9999px;
+      font-size: 0.875rem; font-weight: 500; background: hsla(120, 100%, 50%, 0.1);
+      color: var(--neon); border: 1px solid hsla(120, 100%, 50%, 0.3); margin-bottom: 1.5rem;
+    }
+    .privacy h2 { font-size: clamp(1.875rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 1.5rem; }
+    .privacy-content { max-width: 800px; margin: 0 auto; }
+    .privacy-content h3 { font-size: 1.25rem; font-weight: 600; margin: 2rem 0 1rem; color: var(--foreground); }
+    .privacy-content p { color: var(--muted-foreground); margin-bottom: 1rem; line-height: 1.8; }
+    .privacy-content ul { color: var(--muted-foreground); margin-bottom: 1rem; padding-left: 1.5rem; }
+    .privacy-content li { margin-bottom: 0.5rem; }
+    
+    .footer { padding: 4rem 0 2rem; background: var(--primary); color: var(--primary-foreground); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    @media (max-width: 1024px) { .footer-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .footer-grid { grid-template-columns: 1fr; } }
+    
+    .footer-brand .logo { color: var(--primary-foreground); }
+    .footer-desc { font-size: 0.875rem; color: hsla(0, 0%, 100%, 0.7); margin: 1rem 0; line-height: 1.6; }
+    .social-links { display: flex; gap: 0.75rem; }
+    .social-link {
+      width: 2.5rem; height: 2.5rem; border-radius: 0.5rem;
+      background: hsla(0, 0%, 100%, 0.1); display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s; text-decoration: none;
+    }
+    .social-link:hover { background: var(--neon); }
+    .social-link svg { width: 1.25rem; height: 1.25rem; color: var(--primary-foreground); }
+    .social-link:hover svg { color: var(--primary); }
+    
+    .footer-col h4 { font-family: 'Orbitron', sans-serif; font-size: 0.875rem; font-weight: 600; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.75rem; }
+    .footer-col a { font-size: 0.875rem; color: hsla(0, 0%, 100%, 0.7); text-decoration: none; transition: color 0.3s; }
+    .footer-col a:hover { color: var(--neon); }
+    
+    .footer-bottom { padding-top: 2rem; border-top: 1px solid hsla(0, 0%, 100%, 0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom p { font-size: 0.875rem; color: hsla(0, 0%, 100%, 0.5); }
+    .footer-tagline { font-size: 0.75rem; color: var(--neon); font-family: 'Orbitron', sans-serif; }
+    
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
   </style>
 </head>
 <body>
-  <h1>Welcome to Maverick Systems™</h1>
-  <p>Cutting-edge website building and hosting solutions.</p>
+  <header class="navbar">
+    <div class="container">
+      <nav class="navbar-inner">
+        <a href="#home" class="logo">MAVERICK<span>.</span></a>
+        <div class="nav-links">
+          <a href="#home" class="nav-link">Home</a>
+          <a href="#features" class="nav-link">Services</a>
+          <a href="#pricing" class="nav-link">Pricing</a>
+          <a href="#contact" class="nav-link">Contact</a>
+          <a href="#privacy" class="nav-link">Privacy</a>
+        </div>
+        <div class="nav-cta">
+          <a href="#contact" class="btn btn-neon">Get Started</a>
+        </div>
+        <button class="mobile-menu-btn" onclick="toggleMobile()" aria-label="Toggle menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </nav>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="container">
+        <a href="#home" onclick="closeMobile()">Home</a>
+        <a href="#features" onclick="closeMobile()">Services</a>
+        <a href="#pricing" onclick="closeMobile()">Pricing</a>
+        <a href="#contact" onclick="closeMobile()">Contact</a>
+        <a href="#privacy" onclick="closeMobile()">Privacy</a>
+        <a href="#contact" class="btn btn-neon" style="margin-top: 1rem; display: block; text-align: center;" onclick="closeMobile()">Get Started</a>
+      </div>
+    </div>
+  </header>
 
-  <button id="cta">Click Me</button>
+  <section id="home" class="hero tech-grid">
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+    <div class="container" style="position: relative; z-index: 10;">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>Professional Web Solutions</span>
+          </div>
+          <h1>Elevate Your Business.<br><span class="text-gradient-neon">Dominate Online.</span></h1>
+          <p class="hero-text">Whether you're launching a new venture or scaling an established brand, Maverick Systems delivers professional website design, hosting, and management solutions tailored to South African businesses. Fast, simple, and transparent service—every time.</p>
+          <div class="hero-stats">
+            <div><div class="stat-value">99.9%</div><div class="stat-label">Uptime Guaranteed</div></div>
+            <div><div class="stat-value">24hrs</div><div class="stat-label">Response Time</div></div>
+            <div><div class="stat-value">500+</div><div class="stat-label">SA Businesses Served</div></div>
+          </div>
+          <div class="hero-ctas">
+            <a href="#contact" class="btn btn-neon btn-lg">Start Your Project <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            <a href="#features" class="btn btn-outline btn-lg">Explore Services</a>
+          </div>
+        </div>
+        <div class="hero-image-wrapper">
+          <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80" alt="Professional web development and design services">
+            <div class="hero-image-overlay"></div>
+          </div>
+          <div class="floating-card">
+            <div class="floating-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <div>
+              <div class="floating-card-text">Quick Turnaround</div>
+              <div class="floating-card-subtext">Launch within days</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- JS directly inside <script> -->
+  <section id="features" class="features tech-grid">
+    <div class="container" style="position: relative; z-index: 10;">
+      <div class="features-header">
+        <span class="features-badge">OUR SERVICES</span>
+        <h2>Everything Your Business Needs. <span class="text-gradient-neon">All in One Place.</span></h2>
+        <p class="features-text">Got a website idea or specific requirement? We deliver comprehensive web solutions with transparency and professionalism. From concept to launch and beyond.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="0.5"/><circle cx="17.5" cy="10.5" r="0.5"/><circle cx="8.5" cy="7.5" r="0.5"/><circle cx="6.5" cy="12.5" r="0.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.555C21.965 6.012 17.461 2 12 2z"/></svg></div>
+          <h3>Website Design & Creation</h3>
+          <p>Stunning, modern websites crafted to capture your brand identity and convert visitors into customers. Mobile-responsive designs that work beautifully on every device.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
+          <h3>Reliable Web Hosting</h3>
+          <p>Lightning-fast, secure hosting with 99.9% uptime guarantee. Your website stays online and performs optimally, backed by local South African support.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <h3>Domain Management</h3>
+          <p>Complete domain registration and management services. We handle DNS configuration, renewals, and transfers so you can focus on running your business.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+          <h3>Website Updates & Maintenance</h3>
+          <p>Keep your site fresh and functional with our ongoing maintenance packages. Content updates, plugin management, and performance optimisation included.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h3>Secure Websites</h3>
+          <p>Enterprise-grade SSL certificates, firewall protection, and regular security audits. Your business data and customer information stay protected around the clock.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+          <h3>API Integration & Management</h3>
+          <p>Seamlessly connect your website to payment gateways, CRMs, booking systems, and third-party services. We build and maintain custom integrations that power your operations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="pricing tech-grid">
+    <div class="container" style="position: relative; z-index: 10;">
+      <div class="pricing-header">
+        <span class="pricing-badge">PRICING</span>
+        <h2>Straightforward Pricing. <span class="text-gradient-neon">Real Value.</span></h2>
+        <p class="pricing-text">No hidden fees, no complicated contracts. Choose a package that suits your business needs and budget.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <div class="pricing-name">STARTER</div>
+          <div class="pricing-price">R499<span>/month</span></div>
+          <p class="pricing-desc">Ideal for small businesses and entrepreneurs just getting started online.</p>
+          <ul class="pricing-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>5-Page Professional Website</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Secure Web Hosting</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Free SSL Certificate</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Mobile Responsive Design</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Email Support</li>
+          </ul>
+          <a href="#contact" class="btn btn-outline">Get Started</a>
+        </div>
+        <div class="pricing-card popular">
+          <span class="popular-badge">MOST POPULAR</span>
+          <div class="pricing-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09zM12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
+          <div class="pricing-name">BUSINESS</div>
+          <div class="pricing-price">R1,299<span>/month</span></div>
+          <p class="pricing-desc">Perfect for growing businesses requiring more features and ongoing support.</p>
+          <ul class="pricing-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Up to 15 Pages</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Premium Hosting & CDN</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Domain Management</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Monthly Content Updates</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Basic API Integrations</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Priority Phone & Email Support</li>
+          </ul>
+          <a href="#contact" class="btn btn-neon">Get Started</a>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+          <div class="pricing-name">ENTERPRISE</div>
+          <div class="pricing-price">R2,999<span>/month</span></div>
+          <p class="pricing-desc">Comprehensive solution for established businesses needing advanced features.</p>
+          <ul class="pricing-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Unlimited Pages</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Enterprise-Grade Hosting</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Advanced Security Suite</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Weekly Updates & Maintenance</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Custom API Integrations</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Dedicated Account Manager</li>
+          </ul>
+          <a href="#contact" class="btn btn-outline">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact tech-grid">
+    <div class="container" style="position: relative; z-index: 10;">
+      <div class="contact-grid">
+        <div>
+          <span class="contact-badge">LET'S TALK</span>
+          <h2>Ready to Take Your Business <span class="text-gradient-neon">to New Heights?</span></h2>
+          <p class="contact-text">Whether you have a website idea, need to revamp an existing site, or require ongoing digital support—we're here to help. Share your requirements and our team will respond within 24 hours with a tailored solution.</p>
+          <div class="trust-signals">
+            <div class="trust-item">
+              <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+              <span class="trust-text">POPIA Compliant & Secure</span>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+              <span class="trust-text">Fast, Simple & Transparent Service</span>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              <span class="trust-text">Local South African Support</span>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Full Name *</label>
+              <input type="text" id="name" name="name" placeholder="e.g. Thabo Mokoena" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" placeholder="thabo@company.co.za" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="company">Company / Business Name</label>
+              <input type="text" id="company" name="company" placeholder="Your Business Name">
+            </div>
+            <div class="form-group">
+              <label for="phone">Mobile Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="e.g. 082 123 4567">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="message">Project Details *</label>
+            <textarea id="message" name="message" placeholder="Tell us about your website idea, requirements, or what you'd like to achieve online..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-neon btn-lg">Send Enquiry <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="privacy" class="privacy tech-grid">
+    <div class="container" style="position: relative; z-index: 10;">
+      <div class="privacy-header">
+        <span class="privacy-badge">LEGAL</span>
+        <h2>Privacy Policy</h2>
+      </div>
+      <div class="privacy-content">
+        <p><strong>Effective Date:</strong> January 2025</p>
+        <p>Maverick Systems ("we", "our", or "us") is committed to protecting your personal information in accordance with the Protection of Personal Information Act 4 of 2013 (POPIA) and other applicable South African legislation.</p>
+        
+        <h3>1. Information We Collect</h3>
+        <p>We may collect the following personal information when you use our services or contact us:</p>
+        <ul>
+          <li>Full name and surname</li>
+          <li>Email address</li>
+          <li>Telephone or mobile number</li>
+          <li>Company or business name</li>
+          <li>Physical or postal address</li>
+          <li>Website and project requirements</li>
+          <li>Payment and billing information (processed securely through third-party providers)</li>
+        </ul>
+        
+        <h3>2. Purpose of Processing</h3>
+        <p>We collect and process your personal information for the following purposes:</p>
+        <ul>
+          <li>To provide website design, hosting, and related services</li>
+          <li>To communicate with you regarding your project or enquiry</li>
+          <li>To send invoices, quotes, and service-related correspondence</li>
+          <li>To comply with legal and regulatory requirements</li>
+          <li>To improve our services and customer experience</li>
+        </ul>
+        
+        <h3>3. Legal Basis for Processing</h3>
+        <p>We process your personal information based on:</p>
+        <ul>
+          <li>Your consent, which you provide when submitting enquiries or signing up for services</li>
+          <li>Contractual necessity to fulfil our obligations to you</li>
+          <li>Legitimate business interests, such as improving our services</li>
+          <li>Compliance with legal obligations under South African law</li>
+        </ul>
+        
+        <h3>4. Information Sharing</h3>
+        <p>We do not sell, trade, or rent your personal information to third parties. We may share your information with:</p>
+        <ul>
+          <li>Trusted service providers (hosting companies, payment processors) who assist in delivering our services</li>
+          <li>Professional advisers such as accountants or legal counsel when required</li>
+          <li>Government authorities when legally compelled to do so</li>
+        </ul>
+        
+        <h3>5. Data Security</h3>
+        <p>We implement appropriate technical and organisational measures to protect your personal information against unauthorised access, loss, destruction, or alteration. This includes SSL encryption, secure hosting environments, and access controls.</p>
+        
+        <h3>6. Data Retention</h3>
+        <p>We retain your personal information only for as long as necessary to fulfil the purposes for which it was collected, or as required by law. Upon request, we will delete or anonymise your data where legally permissible.</p>
+        
+        <h3>7. Your Rights</h3>
+        <p>Under POPIA, you have the right to:</p>
+        <ul>
+          <li>Request access to your personal information we hold</li>
+          <li>Request correction of inaccurate or incomplete information</li>
+          <li>Request deletion of your personal information (subject to legal obligations)</li>
+          <li>Object to the processing of your personal information</li>
+          <li>Lodge a complaint with the Information Regulator</li>
+        </ul>
+        
+        <h3>8. Cookies and Analytics</h3>
+        <p>Our website may use cookies and analytics tools to enhance user experience and analyse website traffic. You can manage cookie preferences through your browser settings.</p>
+        
+        <h3>9. Contact Us</h3>
+        <p>For any privacy-related queries, requests, or complaints, please contact us:</p>
+        <p><strong>Maverick Systems</strong><br>
+        Email: privacy@mavericksystems.co.za<br>
+        South Africa</p>
+        
+        <h3>10. Changes to This Policy</h3>
+        <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date. We encourage you to review this policy periodically.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#home" class="logo">MAVERICK<span>.</span></a>
+          <p class="footer-desc">Taking South African businesses to new heights with professional web design, secure hosting, and reliable digital solutions. Your success is our mission.</p>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+            <a href="#" class="social-link" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+            <a href="#" class="social-link" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+            <a href="#" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#features">Web Design</a></li>
+            <li><a href="#features">Web Hosting</a></li>
+            <li><a href="#features">Domain Management</a></li>
+            <li><a href="#features">API Integration</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#home">About</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#privacy">Privacy</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#contact">Get Help</a></li>
+            <li><a href="#contact">Request a Quote</a></li>
+            <li><a href="#features">Our Services</a></li>
+            <li><a href="#privacy">Legal</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:hello@mavericksystems.co.za">hello@mavericksystems.co.za</a></li>
+            <li><a href="tel:+27000000000">+27 (0) 00 000 0000</a></li>
+            <li><span style="color: hsla(0, 0%, 100%, 0.7); font-size: 0.875rem;">South Africa</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Maverick Systems. All rights reserved. Registered in South Africa.</p>
+        <span class="footer-tagline">BUILT FOR SOUTH AFRICAN BUSINESS</span>
+      </div>
+    </div>
+  </footer>
+
   <script>
-    document.getElementById("cta").addEventListener("click", () => {
-      alert("Welcome to Maverick Systems!");
+    function toggleMobile() {
+      document.getElementById('mobileMenu').classList.toggle('active');
+    }
+    function closeMobile() {
+      document.getElementById('mobileMenu').classList.remove('active');
+    }
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const name = form.name.value;
+      alert('Thank you, ' + name + '! Your enquiry has been received. Our team will be in touch within 24 hours.');
+      form.reset();
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
     });
   </script>
 </body>
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maverick Systems™ | Website Building & Hosting Solutions</title>
+    <meta name="description" content="Build the future with Maverick Systems™. Cutting-edge website building and hosting solutions with lightning-fast performance." />
+    <meta name="author" content="Maverick Systems" />
+    <meta property="og:title" content="Maverick Systems™ | Build the Future. Launch Today." />
+    <meta property="og:description" content="Next-gen website building and hosting. No code. No limits." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MaverickSystems" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
